@@ -1,7 +1,7 @@
 /*
  * changes needed: 
- * change distance to an integer instead of a float
- * figure out better behavior for the waiting for collision state...it's hard to prevent it from hanging
+ * figure out better behavior for the waiting for collision state...it's hard to prevent it from crashing due to hanging
+ * really it's just typical async problems
  * it reads out underscores, so maybe we shouldn't have it announce the state has changed in the final product
 */
 
@@ -78,7 +78,7 @@ const STATE_COLORS = {
               await speak("No obstacles detected.");
           }
           else {
-              distance = final_distance - first_distance;
+              distance = Math.ceil(final_distance - first_distance);
               text = "Obstacle detected at " + distance.toString() + " centimeters.";
               await speak(text);
           }
