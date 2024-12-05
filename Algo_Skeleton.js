@@ -38,6 +38,7 @@ const STATE_COLORS = {
     await speak("Collision Detected");
     switch (currentState) {
       case STATES.WAITING_FOR_COLLISION:
+        await scrollMatrixText('Waiting', { r: 0, g: 0, b: 255 }, 15, true);
         await changeState(STATES.MOVING_FORWARD);
         break;
       case STATES.MOVING_FORWARD:
