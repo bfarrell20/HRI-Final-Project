@@ -12,12 +12,6 @@ const STATES = {
   MOVING_BACKWARD: 'MOVING_BACKWARD',
   TERMINAL: 'TERMINAL',
 };
-const STATE_COLORS = {
-WAITING_FOR_COLLISION: { r: 102, g: 255, b: 255 }, //blue
-MOVING_FORWARD: { r: 90, g: 255, b: 90 }, //green
-MOVING_BACKWARD: { r: 102, g: 255, b: 255 }, //yellow
-TERMINAL: { r: 255, g: 102, b: 102 }, //red
-};
 
 let currentState = STATES.WAITING_FOR_COLLISION;
 let startPosition = null;
@@ -28,9 +22,7 @@ let final_distance = 0;
 // Function to change state and update LED color
 async function changeState(newState) {
   currentState = newState;
-  let color = STATE_COLORS[newState];
-  await setMainLed(color);
-  await speak(`State changed to ${newState}`);
+  //await speak(`State changed to ${newState}`);
 }
 
 // Collision handler
@@ -46,6 +38,7 @@ async function onCollision() {
       await changeState(STATES.MOVING_BACKWARD);
       break;
     case STATES.MOVING_BACKWARD:
+		  stopRoll();
       await changeState(STATES.TERMINAL);
       break;
   }
@@ -74,7 +67,6 @@ async function fsmLoop() {
         break;
 
       case STATES.TERMINAL:
-    await setSpeed(0);
         if (final_distance == 0) {
             await speak("No obstacles detected.");
         }
